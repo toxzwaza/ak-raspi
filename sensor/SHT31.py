@@ -119,11 +119,13 @@ def debug() -> None:
     while True:
         temperature, humidity = sensor.get_temperature_humidity()
         logger.info("Temperature: {} C, Humidity: {} %".format(temperature, humidity))
-        is_success = send_post_request(round(temperature), round(humidity))
-        print({"status": is_success.status})
-        if is_success.status == 'success':
+        response = send_post_request(round(temperature), round(humidity))
+        print({"status": response.status_code})
+        if response.status_code == 200:
+            print('success')
             sleep(args.interval)
         else:
+            print('error, restart')
             sleep(1)
 
 
