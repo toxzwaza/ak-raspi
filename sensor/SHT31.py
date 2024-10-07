@@ -118,7 +118,7 @@ def debug() -> None:
     while True:
         temperature, humidity = sensor.get_temperature_humidity()
         logger.info("Temperature: {} C, Humidity: {} %".format(temperature, humidity))
-        is_success = send_post_request(temperature, humidity)
+        is_success = send_post_request(round(temperature), round(humidity))
         print(is_success)
         sleep(args.interval)
 
