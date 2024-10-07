@@ -12,5 +12,5 @@ def send_post_request(temperature, humidity):
         'created_at': datetime.now().isoformat()
     }
     response = requests.get(url, params=params)
-    print(response)
+
     return response

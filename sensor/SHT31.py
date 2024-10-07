@@ -3,6 +3,7 @@ from typing import Tuple, List, Sequence
 from logging import getLogger, basicConfig, INFO
 from time import sleep
 from sendServer import send_post_request
+import json
 
 logger = getLogger(__name__)
 basicConfig(level=INFO)
@@ -110,7 +111,7 @@ def debug() -> None:
         description="Temperature and Humidity Sensor Script"
     )
     parser.add_argument(
-        "-i", "--interval", type=int, default=10, help="set script interval seconds"
+        "-i", "--interval", type=int, default=3600, help="set script interval seconds"
     )
     args = parser.parse_args()
 
@@ -119,8 +120,11 @@ def debug() -> None:
         temperature, humidity = sensor.get_temperature_humidity()
         logger.info("Temperature: {} C, Humidity: {} %".format(temperature, humidity))
         is_success = send_post_request(round(temperature), round(humidity))
-        print(is_success)
-        sleep(args.interval)
+        print({"status": is_success.status})
+        if is_success.status == 'success':
+            sleep(args.interval)
+        else:
+            sleep(1)
 
 
 if __name__ == "__main__":
