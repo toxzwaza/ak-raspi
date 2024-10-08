@@ -1,5 +1,5 @@
 import requests
-from datetime import datetime
+from datetime import datetime, timedelta
 
 def send_post_request(temperature, humidity, process_id):
     url = "http://monokanri-manage.local/api/respi"
@@ -9,8 +9,8 @@ def send_post_request(temperature, humidity, process_id):
         'process_id': process_id,
         'temperature': temperature,
         'humidity': humidity,
-        'created_at': datetime.now().isoformat()
+        'created_at': (datetime.now() + timedelta(hours=1)).replace(minute=0, second=0).isoformat()
     }
-    response = requests.get(url, params=params)
+    response = requests.post(url, json=params)
 
     return response
