@@ -11,6 +11,6 @@ def send_post_request(temperature, humidity, process_id):
         'humidity': humidity,
         'created_at': (datetime.now() + timedelta(hours=1)).replace(minute=0, second=0).isoformat()
     }
-    response = requests.post(url, json=params)
+    response = requests.get(url, json=params)
 
     return response
