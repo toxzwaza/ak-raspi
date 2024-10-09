@@ -107,6 +107,7 @@ def debug() -> None:
     """debug function.
     """
     import argparse
+    import time
     parser = argparse.ArgumentParser(
         description="Temperature and Humidity Sensor Script"
     )
@@ -117,14 +118,16 @@ def debug() -> None:
 
     sensor = SHT31()
 
-    temperature, humidity = sensor.get_temperature_humidity()
-    logger.info("Temperature: {} C, Humidity: {} %".format(temperature, humidity))
-    response = send_post_request(round(temperature), round(humidity))
-    if response.status_code == 200:
-        print('success:成功しました')
-    else:
-        print('error:失敗しました')
-        pass
+    while True:
+        temperature, humidity = sensor.get_temperature_humidity()
+        logger.info("Temperature: {} C, Humidity: {} %".format(temperature, humidity))
+        response = send_post_request(round(temperature), round(humidity))
+        if response.status_code == 200:
+            print('success:成功しました')
+            break
+        else:
+            print('error:失敗しました')
+            time.sleep(5)
 
 
 if __name__ == "__main__":
